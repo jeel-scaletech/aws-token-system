@@ -15,7 +15,10 @@ import {
   generateRandomHexString,
   generateSecurePassword,
 } from 'src/utils/random-hex';
+import { UsernameOwnerGuard } from 'src/guards/user-owner.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller('iam')
 export class IamController {
   constructor(private readonly iamService: IamService) {}
@@ -36,9 +39,9 @@ export class IamController {
   }
 
   // - DELETE /iam/{id}
-  @Delete(':id')
-  @UseGuards(JwtAuthGuard)
-  async deleteIamAccount(@Param('id') username: string) {
+  @Delete(':username')
+  @UseGuards(JwtAuthGuard, UsernameOwnerGuard)
+  async deleteIamAccount(@Param('username') username: string) {
     return await this.iamService.deleteIamAccount(username);
   }
 }

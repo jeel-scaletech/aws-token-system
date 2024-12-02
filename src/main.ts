@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { DatabaseErrorInterceptor } from './exception/database.exception.filter';
 import { ServiceErrorFilter } from './exception/service.exception.filter';
 import { AwsServiceExceptionFilter } from './exception/aws.service.exception.filter';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +18,19 @@ async function bootstrap() {
     new ServiceErrorFilter(),
     new AwsServiceExceptionFilter(),
   );
+
+  // swagger
+  const config = new DocumentBuilder()
+    .setTitle('AWS Credential Helper')
+    .setDescription(
+      'API for easily generating and managing secret key securely',
+    )
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, documentFactory);
 
   await app.listen(port);
 }

@@ -8,6 +8,8 @@ import { validate } from './config/config.env';
 import { RepositoryModule } from './database/repository.module';
 import { AuthModule } from './auth/auth.module';
 import { IamModule } from './iam/iam.module';
+import { TokenModule } from './token/token.module';
+import { IamClientModule } from './globals/iam-client.module';
 
 @Module({
   imports: [
@@ -17,9 +19,12 @@ import { IamModule } from './iam/iam.module';
     // database and repository modules
     DatabaseModule,
     RepositoryModule,
+    // Global singletons
+    IamClientModule,
     // API Modules
     AuthModule,
     IamModule,
+    TokenModule,
   ],
   controllers: [AppController],
   providers: [AppService],
