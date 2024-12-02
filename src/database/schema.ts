@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { pgTable, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 export const usersTable = pgTable('users', {
   email: varchar({ length: 255 }).primaryKey(),
@@ -39,3 +39,10 @@ export const credRelations = relations(iamCredsTable, ({ one }) => ({
     references: [iamUsersTable.username],
   }),
 }));
+
+export const auditLogs = pgTable('auditLogs', {
+  // not a foreign key to user because user may get deleted but we want to preserve all the audit logs
+  user: varchar({ length: 255 }).notNull(),
+  timestamp: timestamp().defaultNow(),
+  log: text().notNull(),
+});

@@ -1,7 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Database, DRIZZLE_DATABASE } from './database.module';
-import { and, eq, sql } from 'drizzle-orm';
-import { usersTable } from './schema';
 import { AppConfigService } from 'src/config/config.service';
 import { ServiceError } from 'src/utils/core.exception';
 
@@ -20,10 +18,11 @@ export class UserRepository {
 
   async findUserWithPassword(email: string, password: string) {
     return await this.db.query.usersTable.findFirst({
-      where: and(
-        eq(usersTable.email, email),
-        sql`${usersTable.password} = crypt(${password}, ${this.salt})`,
-      ),
+      where: (users, { eq, and, sql }) =>
+        and(
+          eq(users.email, email),
+          sql`${users.password} = crypt(${password}, ${this.salt})`,
+        ),
       columns: {
         email: true,
         userArn: true,
@@ -33,7 +32,7 @@ export class UserRepository {
 
   async getUser(email: string) {
     return await this.db.query.usersTable.findFirst({
-      where: eq(usersTable.email, email),
+      where: (users, { eq }) => eq(users.email, email),
     });
   }
 

@@ -31,10 +31,17 @@ async function bootstrap() {
   const db: Database = app.get(DRIZZLE_DATABASE);
   const salt = config.get('SALT');
 
-  await db.insert(usersTable).values({
-    email: 'jeelpatel231@gmail.com',
-    password: sql`crypt('password', ${salt})`,
-    userArn: 'arn:aws:iam::585293969917:user/iam-controller-api',
-  });
+  await db.insert(usersTable).values([
+    {
+      email: 'jeelpatel231@gmail.com',
+      password: sql`crypt('password', ${salt})`,
+      userArn: 'arn:aws:iam::585293969917:user/iam-controller-api',
+    },
+    {
+      email: 'jeelpatel231@gmail2.com',
+      password: sql`crypt('password', ${salt})`,
+      userArn: 'arn:aws:iam::585293969917:user/iam-controller-api2',
+    },
+  ]);
 }
 bootstrap();

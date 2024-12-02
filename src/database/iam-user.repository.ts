@@ -1,7 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Database, DRIZZLE_DATABASE } from './database.module';
-import { eq } from 'drizzle-orm';
-import { iamUsersTable } from './schema';
 import { ServiceError } from 'src/utils/core.exception';
 
 @Injectable()
@@ -13,7 +11,7 @@ export class IamUserRepository {
 
   async getUser(username: string) {
     return await this.db.query.iamUsersTable.findFirst({
-      where: eq(iamUsersTable.username, username),
+      where: (iamUser, { eq }) => eq(iamUser.username, username),
     });
   }
 

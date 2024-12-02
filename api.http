@@ -1,0 +1,68 @@
+@host=http://localhost:3000
+
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImplZWxwYXRlbDIzMUBnbWFpbC5jb20iLCJ1c2VyQXJuIjoiYXJuOmF3czppYW06OjU4NTI5Mzk2OTkxNzp1c2VyL2lhbS1jb250cm9sbGVyLWFwaSIsImlhdCI6MTczMzEzMzgyNiwiZXhwIjoxNzMzMTM0NzI2fQ.4-GovGcZZjDS0nOUTx3YDG1dNV32PlPf8W1lHr4lODo
+
+@token2=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImplZWxwYXRlbDIzMUBnbWFpbDIuY29tIiwidXNlckFybiI6ImFybjphd3M6aWFtOjo1ODUyOTM5Njk5MTc6dXNlci9pYW0tY29udHJvbGxlci1hcGkyIiwiaWF0IjoxNzMzMTMzODIwLCJleHAiOjE3MzMxMzQ3MjB9.xhMrRhXA6bS7yhirmqlMSZxIxXTmqsoUljnP0BKxsGc
+
+POST {{host}}/auth/login/
+Content-Type: application/json
+
+{ 
+  "username": "jeelpatel231@gmail.com",
+  "password": "password"
+}
+
+###
+
+GET {{host}}/auth/me
+Authorization: Bearer {{token}}
+
+
+#### IAM USER
+
+POST {{host}}/iam/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ 
+  "policyDocument": {
+  "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": "iam:GetUser",
+        "Resource": "*"
+      }
+    ]
+  }
+}
+
+
+###
+DELETE {{host}}/iam/jeelpatel231@gmail.com-ca3830bedd505ece
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+##### credentials
+
+GET {{host}}/iam/jeelpatel231@gmail.com-ce99724c4bba41s/token
+Authorization: Bearer {{token}}
+
+###
+POST {{host}}/iam/jeelpatel231@gmail.com-ce99724c4bba412e/token
+Authorization: Bearer {{token}}
+
+###
+DELETE {{host}}/iam/jeelpatel231@gmail.com-ce99724c4bba412e/token/AKIAYQRR5HH6XHVRCAO7
+Authorization: Bearer {{token}}
+
+###
+PATCH {{host}}/iam/jeelpatel231@gmail.com-ce99724c4bba412e/token/AKIAYQRR5HH6YC77JVAP
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "tokenState": "Active"
+}
+
+######
