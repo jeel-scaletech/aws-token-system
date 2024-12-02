@@ -29,10 +29,12 @@ async function bootstrap() {
   const app = await NestFactory.create(SeedModule);
   const config = app.get(AppConfigService);
   const db: Database = app.get(DRIZZLE_DATABASE);
+  const salt = config.get('SALT');
 
   await db.insert(usersTable).values({
     email: 'jeelpatel231@gmail.com',
-    password: sql`crypt('password', ${config.get('SALT')})`,
+    password: sql`crypt('password', ${salt})`,
+    userArn: 'arn:aws:iam::585293969917:user/iam-controller-api',
   });
 }
 bootstrap();

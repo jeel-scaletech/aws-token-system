@@ -22,7 +22,10 @@ export class UserRepository {
     password: string,
   ): Promise<{ email: string } | undefined> {
     const [user] = await this.db
-      .select({ email: usersTable.email })
+      .select({
+        email: usersTable.email,
+        userArn: usersTable.userArn,
+      })
       .from(usersTable)
       .where(
         and(

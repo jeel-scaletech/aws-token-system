@@ -20,6 +20,18 @@ export class Env {
   @IsString()
   @IsNotEmpty()
   SALT: string;
+
+  @IsString()
+  @IsNotEmpty()
+  AWS_REGION: string;
+
+  @IsString()
+  @IsNotEmpty()
+  AWS_ACCESS_KEY: string;
+
+  @IsString()
+  @IsNotEmpty()
+  AWS_SECRET_KEY: string;
 }
 
 export const validate = (env: Record<string, unknown>) => {
