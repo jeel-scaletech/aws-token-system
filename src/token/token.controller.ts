@@ -12,7 +12,9 @@ import { UsernameOwnerGuard } from 'src/guards/user-owner.guard';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { TokenService } from './token.service';
 import { UpdateTokenReqDto } from './dto/update-token.req.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard, UsernameOwnerGuard)
 @Controller('/iam/:username/token')
 export class TokenController {
